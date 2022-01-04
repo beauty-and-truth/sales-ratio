@@ -1,3 +1,8 @@
+# Uncompressed Data
+raw_county/
+tidy_county/
+
+
 # History files
 .Rhistory
 .Rapp.history
