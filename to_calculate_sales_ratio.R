@@ -87,3 +87,14 @@ for(i in countyFiles){
 
 }
 
+###### SUMMARY STATISTICS: ###################
+
+# get mean and aggregate sales ratios per group
+ratio_summary <- tidied %>%
+  group_by(nest_index) %>%
+  summarize(mean_ratio = mean(adjSR), 
+            agg_ratio = sum(adjSR), 
+            median_ratio = median(adjSR))
+
+# Generally, a median ratio between 90% and 105% is considered in compliance
+
