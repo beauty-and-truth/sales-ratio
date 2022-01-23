@@ -1,15 +1,16 @@
 # sales-ratio
- Analysis of the relationship between property sales prices and property assessments
+This project uses publicly-available property sale data for the state of New Jersey to recreate a sales ratio study.
 
-Sales ratio studies compare property assessments and property sales prices to determine
+A sales ratio study compares a property’s assessed value against the price paid for it. Property assessments determine property taxes, so you want your property, your township's properties, and your county's properties to be valued correctly compared with their neighbors.  
+
+Sales ratio studies are performed by the state to make sure individuals and townships aren't carrying a disproportionate share of the tax burden. They check:
 	1. whether individual properties were assessed correctly
 	2. whether individual townships tend to have accurate assessments
-	3. what the true property values are (which affects tax revenue)
-	4. whether more expensive properties are assessed more or less accurately than cheaper properties
+	3. what the true property values are 
+	4. whether more expensive properties are assessed more or less accurately than less expensive ones
 
-The naive Sales Ratio is the Assessment Value divided by its Sales Price. Sales ratios are analyzed for outliers and errors, corrected, and adjusted for market trends before they are used to validate assessments.
+The Sales Ratio is the Assessment Value divided by its Sales Price. Sales ratios are analyzed for outliers and errors, corrected, and adjusted for market trends before they are used to validate assessments.
 
-This project uses publicly-available property sale data for the state of New Jersey to recreate a sales ratio study.
 
 ## Sources
 
