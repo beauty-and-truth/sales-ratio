@@ -14,13 +14,13 @@ for(i in countyFiles){
   
   ###### NAIVE OUTLIERS #############
   
-  # Create naive sales ratio = assessment/price with which to identify outliers:
+  # Create naive sales ratio (assessment/price) with which to identify outliers:
   tidied <- tidied %>%
     mutate(naiveSR = assmnt / price) %>%
     # Group by township, property type
     group_by(twp, class) %>%
     nest() %>%
-    #  sapply takes each element of tidied$data and performs a summary stat function on it
+    # sapply takes each element of tidied$data and performs a summary stat function on it
     mutate(  AVG = sapply(data, function (x) mean(x$naiveSR)),
              SD = sapply(data, function (x) sd(x$naiveSR)),
              Q1 = sapply(data, function (x) quantile(x$naiveSR, probs = 0.25)),
@@ -28,6 +28,7 @@ for(i in countyFiles){
              IQR = (Q3 - Q1),
              N = sapply(data, nrow)
     )
+  # Assign each group an integer value, to re-group the same way later:
   tidied$nestIndex <- 1:nrow(tidied)
   
   # Identify outliers
@@ -47,13 +48,13 @@ for(i in countyFiles){
     filter (N >= 30)
   
   # Define the function that produces the market trend line:
-  market_trend_func <- function(df){
+  marketTrendFunc <- function(df){
     lm(log(price / assmnt) ~ studyMonth, data = df) 
   }
   
   # Apply the market trend function to the outer data frame:
   inliers <- inliers %>%
-    mutate(marketTrend = map(data, market_trend_func),
+    mutate(marketTrend = map(data, marketTrendFunc),
            # return the slope of marketTrend:
            monthlyGrowth = sapply(marketTrend, function(x) x$coefficients[2]),
            # significant = TRUE at 90% conf level if p <= 0.1:
@@ -90,11 +91,10 @@ for(i in countyFiles){
 ###### SUMMARY STATISTICS: ###################
 
 # get mean and aggregate sales ratios per group
-ratio_summary <- tidied %>%
-  group_by(nest_index) %>%
-  summarize(mean_ratio = mean(adjSR), 
-            agg_ratio = sum(adjSR), 
-            median_ratio = median(adjSR))
-
+ratioSummary <- tidied %>%
+  group_by(nestIndex) %>%
+  summarize(meanRatio = mean(adjSR), 
+            aggRatio = sum(adjSR), 
+            medianRatio = median(adjSR))
 # Generally, a median ratio between 90% and 105% is considered in compliance
 
